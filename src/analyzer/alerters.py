@@ -5,6 +5,9 @@ from smtplib import SMTP
 import alerters
 import settings
 import urllib2
+import logging
+
+logger = logging.getLogger("AnalyzerLog")
 
 """
 Create any alerter you want here. The function will be invoked from trigger_alert.
@@ -99,6 +102,10 @@ def alert_syslog(alert, metric):
     else:
         syslog.openlog(syslog_ident, syslog.LOG_PID, syslog.LOG_LOCAL4)
     syslog.syslog(4, message)
+
+
+def alert_log(alert, metric):
+    logger.info("[ANOMALOUS METRIC]: %s (value: %s)" % (metric[1], metric[0]))
 
 
 def trigger_alert(alert, metric):
